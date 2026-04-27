@@ -22,7 +22,25 @@ export class EfficiencyGenerator {
     };
   }
 
+  public generateReasonableTime(): QuestionResult {
+    const types = [
+      { q: "A list of size n is processed in n^2 steps.", a: "Reasonable", e: "Polynomial time (n^2, n^3, etc.) is considered 'reasonable' time in CSP." },
+      { q: "A list of size n is processed in 2^n steps.", a: "Unreasonable", e: "Exponential time (2^n) is considered 'unreasonable' time because the steps grow too quickly as n increases." },
+      { q: "A list of size n is processed in log(n) steps.", a: "Reasonable", e: "Logarithmic time is very efficient and considered reasonable." }
+    ];
+    const item = types[Math.floor(Math.random() * types.length)]!;
+    
+    return {
+      code: `// Efficiency Concepts\n// Is an algorithm with ${item.q.toLowerCase()} \n// considered to run in 'Reasonable' or 'Unreasonable' time?`,
+      answer: item.a,
+      explanation: item.e
+    };
+  }
+
   public generateNext(): QuestionResult {
-    return Math.random() > 0.5 ? this.generateBinarySearchProblem() : this.generateLinearVsBinary();
+    const rand = Math.random();
+    if (rand < 0.4) return this.generateBinarySearchProblem();
+    if (rand < 0.7) return this.generateLinearVsBinary();
+    return this.generateReasonableTime();
   }
 }
